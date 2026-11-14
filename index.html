@@ -93,6 +93,17 @@ main .wrap{padding:18px max(5vw,16px) 60px}
 .mini .nmb:hover{color:var(--navy2);text-decoration:underline}
 .info .pre{white-space:pre-wrap}
 @media(max-width:600px){.g2,.g2.n{grid-template-columns:minmax(0,1fr)}.xr{grid-template-columns:minmax(0,1fr) 44px}.xr .xk,.xr .xv{grid-column:1}.xr .xd{grid-column:2;grid-row:1/3;height:auto}}
+.vbadge{display:inline-flex;align-items:center;gap:6px;margin-left:8px;height:30px;padding:0 12px;border-radius:99px;border:1px solid light-dark(rgba(38,48,77,.14),rgba(255,255,255,.18));background:light-dark(rgba(255,255,255,.72),rgba(255,255,255,.08));color:inherit;font-size:13px;cursor:pointer;vertical-align:middle}
+.vbadge:hover{background:light-dark(#fff,rgba(255,255,255,.14))}.vbadge b{font-weight:600}.vlbl{opacity:.7}
+.vdot{width:8px;height:8px;border-radius:50%;background:#8fd8bd;box-shadow:0 0 0 3px rgba(143,216,189,.35)}
+@media(max-width:600px){.vlbl{display:none}}
+.vlist{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.vlist>li{display:grid;grid-template-columns:96px minmax(0,1fr);gap:14px;padding:14px 0;border-top:1px solid var(--line)}
+.vlist>li:first-child{border-top:0}
+.vtag{font-weight:700;font-size:17px;font-variant-numeric:tabular-nums}.vtag small{display:block;font-weight:400;color:var(--mute);font-size:13px}
+.vlist>li.now .vtag{color:var(--navy2)}.vnow{display:inline-block;font-size:12px;padding:1px 8px;border-radius:99px;background:var(--okb);color:var(--okink);margin-left:6px;vertical-align:2px}
+.vlist h3{margin:0 0 4px;font-size:16px}.vlist ul{margin:0;padding-left:18px;color:var(--mute);font-size:15px}
+.foot button{border:0;background:none;color:inherit;text-decoration:underline;cursor:pointer;font-size:13px;padding:4px}
 .foot{margin-top:32px;text-align:center;color:var(--mute);font-size:13px}
 .empty{text-align:center;padding:56px 16px;color:var(--mute);border:2px dashed var(--line);border-radius:20px}
 .empty h2{color:var(--ink);font-size:22px;margin:0 0 6px}
@@ -141,7 +152,7 @@ label.f{font-size:14px;color:var(--mute);display:grid;gap:4px}
  <div class="wrap">
   <div class="top">
    <div>
-    <p class="kick">ลงชื่อเข้าเรียน</p>
+    <p class="kick">ลงชื่อเข้าเรียน <button class="vbadge" id="vbadge" aria-label="ดูประวัติเวอร์ชัน"><span class="vdot"></span><b id="vbv">v</b><span class="vlbl">อัปเดตล่าสุด</span></button></p>
     <h1 id="title">คลาส Claude AI</h1>
     <div class="date"><span id="dlabel"></span><input type="date" id="day" aria-label="เลือกวันที่"><span id="startlbl"></span></div>
    </div>
@@ -169,7 +180,7 @@ label.f{font-size:14px;color:var(--mute);display:grid;gap:4px}
  <div class="note" id="note" hidden></div>
  <ul class="list" id="list"></ul>
  <div class="empty" id="empty" hidden><h2>ยังไม่มีรายชื่อผู้เข้าเรียน</h2>กด “จัดการรายชื่อ” เพื่อนำเข้าไฟล์ CSV หรือ Excel</div>
- <footer class="foot">เช็คชื่อ Claude AI · เวอร์ชัน <b id="ver"></b> · อัปเดต 14 พ.ย. 2569<span id="sver"></span></footer>
+ <footer class="foot">เช็คชื่อ Claude AI · <button id="verLink">เวอร์ชัน <b id="ver"></b></button> · อัปเดต 14 พ.ย. 2569<span id="sver"></span></footer>
 </div></main>
 
 <div class="ov" id="ovSign" role="dialog" aria-modal="true" aria-labelledby="sgName"><div class="sheet">
@@ -231,6 +242,11 @@ label.f{font-size:14px;color:var(--mute);display:grid;gap:4px}
  <datalist id="pfxL"><option value="นาย"><option value="นางสาว"><option value="นาง"><option value="ดร."></datalist><datalist id="orgL"></datalist>
 </div></div>
 
+<div class="ov" id="ovVer" role="dialog" aria-modal="true" aria-labelledby="verH"><div class="sheet">
+ <div class="hd"><div><h2 id="verH">ประวัติเวอร์ชัน</h2><div class="sub" id="verSub"></div></div><button class="x" data-close aria-label="ปิด">✕</button></div>
+ <ul class="vlist" id="vlist"></ul>
+</div></div>
+
 <div class="ov" id="ovAsk" role="dialog" aria-modal="true"><div class="sheet" style="width:min(440px,100%)">
  <h2 id="askT"></h2><p class="sub" id="askB" style="white-space:normal;font-size:16px"></p>
  <div class="acts"><button class="btn ghost" data-close>ยกเลิก</button><button class="btn danger" id="askOk">ยืนยัน</button></div>
@@ -241,7 +257,8 @@ label.f{font-size:14px;color:var(--mute);display:grid;gap:4px}
 <script src="roster.js"></script>
 <script>
 {
-const APP_VERSION='1.2.1';
+const APP_VERSION='1.3.0';
+const CHANGES=[{"v": "1.3.0", "d": "14 พ.ย. 2569", "t": "ป้ายเวอร์ชันและประวัติการพัฒนา", "i": ["ป้ายเวอร์ชันบนหัวเว็บ กดเพื่อดูประวัติการพัฒนาทุกเวอร์ชัน", "เผยแพร่เว็บผ่าน GitHub Pages"]}, {"v": "1.2.1", "d": "14 พ.ย. 2569", "t": "รายชื่อแบบเรียบง่าย", "i": ["รายชื่อแสดงแค่ชื่อและนามสกุล ข้อมูลอื่นดูได้เมื่อกดที่ชื่อ"]}, {"v": "1.2.0", "d": "14 พ.ย. 2569", "t": "เพิ่มและแก้ไขรายชื่อ", "i": ["ปุ่มเพิ่มรายชื่อ และแก้ไขข้อมูลได้ทุกช่อง", "ช่อง Line ID และหมายเหตุ", "เพิ่มหัวข้อรายละเอียดเองได้ เช่น ข้อจำกัดด้านอาหาร", "ข้อมูลจากฟอร์มลงทะเบียนของผู้ลงทะเบียนหลัก"]}, {"v": "1.1.0", "d": "14 พ.ย. 2569", "t": "หน้ารายละเอียด", "i": ["กดที่ชื่อเพื่อดูชื่อภาษาอังกฤษ อีเมล เบอร์โทร", "กดอีเมลหรือเบอร์โทรเพื่อติดต่อได้ทันที", "ค้นหาด้วยอีเมลหรือเบอร์โทรได้"]}, {"v": "1.0.0", "d": "14 พ.ย. 2569", "t": "เวอร์ชันแรก", "i": ["เช็คชื่อ เซ็นลายเซ็น และบันทึกเวลาเข้า บอกตรงเวลาหรือสาย", "รายชื่อเรียงตามบริษัท ค้นหาและกรองได้", "นำเข้ารายชื่อจาก Excel/CSV และส่งออก CSV", "บันทึกลง Google Sheets ทุกเครื่องเห็นข้อมูลเดียวกัน", "รองรับมือถือ แท็บเล็ต คอมพิวเตอร์ สีพาสเทลโทนเย็น"]}];
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const pad2=n=>String(n).padStart(2,'0');
@@ -441,7 +458,11 @@ $('#apiF').addEventListener('submit',async e=>{e.preventDefault();const u=$('#ap
  API=u;LS.set('ck_api',u);seeded=false;if(!u){apiNote();toast('ยกเลิกการเชื่อม Google Sheets แล้ว');return}
  toast('กำลังทดสอบการเชื่อมต่อ…');await pull();if($('#note').hidden)toast('เชื่อม Google Sheets สำเร็จ')});
 $('#openAdmin').addEventListener('click',()=>{$('#apiU').value=API});
-loadLocal();$('#ver').textContent='v'+APP_VERSION;setDay(S.day);apiNote();
+loadLocal();$('#ver').textContent=$('#vbv').textContent='v'+APP_VERSION;
+function openVer(){$('#verSub').textContent='ตอนนี้ใช้เวอร์ชัน v'+APP_VERSION+($('#sver').textContent||'');
+ $('#vlist').innerHTML=CHANGES.map(c=>`<li class="${c.v===APP_VERSION?'now':''}"><div class="vtag">v${esc(c.v)}<small>${esc(c.d)}</small></div><div><h3>${esc(c.t)}${c.v===APP_VERSION?'<span class="vnow">ปัจจุบัน</span>':''}</h3><ul>${c.i.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></li>`).join('');open('#ovVer')}
+$('#vbadge').onclick=openVer;$('#verLink').onclick=openVer;
+setDay(S.day);apiNote();
 setInterval(pull,8000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)pull()});
 }
 </script>

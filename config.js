@@ -1,4 +1,4 @@
-/* เช็คชื่อ Claude AI v1.2.1
+/* เช็คชื่อ Claude AI v1.3.0
  * ตั้งค่าการเชื่อม Google Sheets
  * วางลิงก์ Web app ของ Google Apps Script (ลงท้ายด้วย /exec) ระหว่างเครื่องหมายคำพูด
  * ตัวอย่าง: window.CHECKIN_API = 'https://script.google.com/macros/s/AKfycb.../exec';

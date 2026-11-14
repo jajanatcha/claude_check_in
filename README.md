@@ -1,6 +1,8 @@
 # เช็คชื่อเข้าเรียน — คลาส Claude AI
 
-![version](https://img.shields.io/badge/version-1.2.1-8fb4f5) **เวอร์ชัน 1.2.1** · อัปเดต 14 พ.ย. 2569 · ดูประวัติการเปลี่ยนแปลงใน [CHANGELOG.md](CHANGELOG.md)
+![version](https://img.shields.io/badge/version-1.3.0-8fb4f5) **เวอร์ชัน 1.3.0** · อัปเดต 14 พ.ย. 2569 · ดูประวัติการเปลี่ยนแปลงใน [CHANGELOG.md](CHANGELOG.md)
+
+🌐 **เว็บไซต์:** https://jajanatcha.github.io/claude_check_in/
 
 เว็บเช็คชื่อผู้เข้าเรียนที่ใช้ได้ทั้งมือถือ แท็บเล็ต และคอมพิวเตอร์ ผู้เรียนกดเช็คชื่อ เซ็นลายเซ็น แล้วระบบจะบันทึกเวลาที่มาถึงลง **Google Sheets** ให้อัตโนมัติ
 
@@ -97,12 +99,12 @@ window.CHECKIN_API = 'https://script.google.com/macros/s/AKfycb.../exec';
 - **MINOR** (1.**1**.0): เพิ่มความสามารถใหม่ที่ใช้กับชีตเดิมได้
 - **MAJOR** (**2**.0.0): เปลี่ยนโครงสร้างชีต หรือต้องตั้งค่าใหม่
 
-ทุกครั้งที่ออกเวอร์ชันใหม่ ให้แก้ 3 ที่ให้ตรงกัน คือ `VERSION`, `APP_VERSION` ใน `index.html` และ `VERSION` ใน `apps-script/Code.gs` จากนั้นบันทึกสิ่งที่เปลี่ยนใน `CHANGELOG.md` แล้วทำ tag บน GitHub
+ทุกครั้งที่ออกเวอร์ชันใหม่ ให้แก้ `VERSION`, `APP_VERSION` และ `CHANGES` ใน `index.html` ให้ตรงกัน (แก้ `VERSION` ใน `apps-script/Code.gs` เฉพาะเมื่อแก้โค้ดฝั่ง Google Sheets) จากนั้นบันทึกสิ่งที่เปลี่ยนใน `CHANGELOG.md` แล้วทำ tag บน GitHub
 ```bash
-git tag v1.2.1
-git push origin v1.2.1
+git tag v1.3.0
+git push origin v1.3.0
 ```
-เลขเวอร์ชันของเว็บแสดงอยู่ที่ท้ายหน้า และถ้าเชื่อม Google Sheets แล้ว จะแสดงเวอร์ชันของ Apps Script ต่อท้ายด้วย
+เลขเวอร์ชันของเว็บแสดงเป็นป้ายบนหัวเว็บและที่ท้ายหน้า กดเพื่อดูประวัติทุกเวอร์ชันได้ (ประวัติในเว็บอยู่ในตัวแปร `CHANGES` ใน `index.html` เพิ่มรายการใหม่ไว้บนสุดทุกครั้งที่ออกเวอร์ชัน) และถ้าเชื่อม Google Sheets แล้ว จะแสดงเวอร์ชันของ Apps Script ต่อท้ายด้วย
 
 ## แก้ปัญหาเบื้องต้น
 | อาการ | วิธีแก้ |
